@@ -4,19 +4,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { _id, title, content } = req.body;
+    const { id } = JSON.parse(req.body);
     const client = await connectDB;
     const db = client.db('forum');
-
-    const filter = { _id: new ObjectId(_id) };
-    const updateDoc = {
-      $set: {
-        title,
-        content,
-      },
+    const filter = {
+      _id: new ObjectId(id),
     };
-    await db.collection('post').updateOne(filter, updateDoc);
-
-    res.redirect(302,`/detail/${_id}`);
+    await db.collection('post').deleteOne(filter);
+    res.status(200).json({
+      status: 200
+    });
   }
 }

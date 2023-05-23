@@ -4,6 +4,8 @@ import React from 'react';
 import HomeButton from '../component/Button/HomeButton';
 import Boards from './Boards';
 import { Board } from '@/types/Board';
+import { getServerSession } from 'next-auth';
+import { User } from '@/types/User';
 
 // static rendering -> dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -12,7 +14,6 @@ export const dynamic = 'force-dynamic';
 // export const revalidate = 60;
 
 export default async function List() {
-
   // /api/list로 GET요청해서 데이터를 받아올 경우 cache
   // await fetch('/list', {
   //   cache: 'force-cache', // 캐시 사용하지 않을 때 no-store
@@ -21,12 +22,16 @@ export default async function List() {
   //   }
   // });
 
+  const session = await getServerSession();
+  const user = (session?.user as User) || null;
   const client = await connectDB;
   const db = client.db('forum');
   const boards: Board[] = (await db.collection('post').find().toArray()).map((doc) => ({
     id: doc._id.toString(),
     title: doc.title,
     content: doc.content,
+    authorName: doc.authorName,
+    authorEmail: doc.authorEmail,
   }));
 
   return (
@@ -36,7 +41,7 @@ export default async function List() {
         <HomeButton />
       </div>
       <Link href={'/new'}>글 작성</Link>
-      <Boards boards={boards} />
+      <Boards user={user} boards={boards} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import BackButton from '@/app/component/Button/BackButton';
 import EditButton from '@/app/component/Button/EditButton';
 import { connectDB } from '@/util/database';
 import { ObjectId } from 'mongodb';
-import { NextPage } from 'next';
+import { getServerSession } from 'next-auth';
 import React from 'react';
 
 interface Props {
@@ -12,19 +12,22 @@ interface Props {
 }
 
 export default async function page({ params: { id } }: Props) {
+  const session = await getServerSession();
   const client = await connectDB;
   const db = client.db('forum');
-  const result = await db.collection('post').findOne({
+  const board = await db.collection('post').findOne({
     _id: new ObjectId(id),
   });
+  const isMyBoard = session ? board?.authorEmail === session.user?.email : false;
+  
   return (
     <div>
       <h4>상세페이지</h4>
       <BackButton />
-      <EditButton id={id} />
+      {isMyBoard && <EditButton id={id} />}
 
-      <h4>{result?.title || ''}</h4>
-      <p>{result?.content || ''}</p>
+      <h4>{board?.title || ''}</h4>
+      <p>{board?.content || ''}</p>
     </div>
   );
 }

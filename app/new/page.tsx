@@ -1,7 +1,18 @@
 import React from 'react';
 import BackButton from '../component/Button/BackButton';
+import { getServerSession } from 'next-auth';
+import LogInButton from '../LogInButton';
 
-export default function New() {
+export default async function New() {
+  const session = await getServerSession();
+  if (!session) {
+    return (
+      <div>
+        로그인 해주세요 👉
+        <LogInButton />
+      </div>
+    );
+  }
   return (
     <div>
       <h4>글 작성</h4>

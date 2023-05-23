@@ -1,6 +1,7 @@
 import BackButton from '@/app/component/Button/BackButton';
 import { connectDB } from '@/util/database';
 import { ObjectId } from 'mongodb';
+import { getServerSession } from 'next-auth';
 import React from 'react';
 
 interface Props {
@@ -10,6 +11,14 @@ interface Props {
 }
 
 export default async function EditPage({ params: { id } }: Props) {
+  const session = await getServerSession();
+
+  if (!session) {
+    return (
+      <div>잘못된 접근입니다.</div>
+    )
+  }
+
   const client = await connectDB;
   const db = client.db('forum');
   const result = await db.collection('post').findOne({

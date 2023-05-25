@@ -6,6 +6,7 @@ import Boards from './Boards';
 import { Board } from '@/types/Board';
 import { getServerSession } from 'next-auth';
 import { User } from '@/types/User';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 // static rendering -> dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -22,17 +23,20 @@ export default async function List() {
   //   }
   // });
 
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const user = (session?.user as User) || null;
   const client = await connectDB;
   const db = client.db('forum');
-  const boards: Board[] = (await db.collection('post').find().toArray()).map((doc) => ({
-    id: doc._id.toString(),
-    title: doc.title,
-    content: doc.content,
-    authorName: doc.authorName,
-    authorEmail: doc.authorEmail,
-  }));
+  const boards: Board[] = (await db.collection('post').find().toArray()).map(
+    (doc) =>
+      ({
+        _id: doc._id.toString(),
+        title: doc.title,
+        content: doc.content,
+        authorName: doc.authorName,
+        authorEmail: doc.authorEmail,
+      } as Board)
+  );
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import BackButton from '@/app/component/Button/BackButton';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { connectDB } from '@/util/database';
 import { ObjectId } from 'mongodb';
 import { getServerSession } from 'next-auth';
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export default async function EditPage({ params: { id } }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   if (!session) {
     return (

@@ -4,6 +4,9 @@ import { connectDB } from '@/util/database';
 import { ObjectId } from 'mongodb';
 import { getServerSession } from 'next-auth';
 import React from 'react';
+import Comments from './Comments';
+import LikeButton from './LikeButton';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 interface Props {
   params: {
@@ -12,14 +15,19 @@ interface Props {
 }
 
 export default async function page({ params: { id } }: Props) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const client = await connectDB;
   const db = client.db('forum');
+  const boardId = new ObjectId(id);
   const board = await db.collection('post').findOne({
-    _id: new ObjectId(id),
+    _id: boardId,
   });
+  const userLiked = await db.collection('liked').findOne({
+    userId: new ObjectId(session.user.id),
+  });
+  const isLiked: boolean = userLiked?.posts.includes(id) || false;
   const isMyBoard = session ? board?.authorEmail === session.user?.email : false;
-  
+
   return (
     <div>
       <h4>상세페이지</h4>
@@ -28,6 +36,8 @@ export default async function page({ params: { id } }: Props) {
 
       <h4>{board?.title || ''}</h4>
       <p>{board?.content || ''}</p>
+      <LikeButton id={id} isLiked={isLiked} />
+      <Comments id={id} />
     </div>
   );
 }

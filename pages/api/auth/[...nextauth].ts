@@ -1,4 +1,4 @@
-import NextAuth, { SessionStrategy, User } from 'next-auth';
+import NextAuth, { SessionStrategy } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';

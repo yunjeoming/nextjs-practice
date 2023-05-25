@@ -6,6 +6,7 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import LogInButton from './LogInButton';
 import LogOutButton from './LogOutButton';
 import SignUpButton from './SignUpButton';
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 

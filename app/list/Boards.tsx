@@ -36,14 +36,14 @@ export default function Boards({ boards, user }: Props) {
   return (
     <>
       {boards.map((board) => (
-        <div key={board.id} className="border opacity-100 transition-all duration-500 ease-in">
-          <Link prefetch={false} href={`/detail/${board.id}`}>
+        <div key={board._id} className="border opacity-100 transition-all duration-500 ease-in">
+          <Link prefetch={false} href={`/detail/${board._id}`}>
             <h4>{board.title}</h4>
           </Link>
           <p>{board.content}</p>
           {user?.isRole === 'admin' ||
             (user?.email === board.authorEmail && (
-              <span className="cursor-pointer" onClick={(e) => handleDelete(e, board.id)}>
+              <span className="cursor-pointer" onClick={(e) => handleDelete(e, board._id)}>
                 삭제
               </span>
             ))}

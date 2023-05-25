@@ -2,9 +2,10 @@ import React from 'react';
 import BackButton from '../component/Button/BackButton';
 import { getServerSession } from 'next-auth';
 import LogInButton from '../LogInButton';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 export default async function New() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return (
       <div>

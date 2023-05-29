@@ -6,7 +6,7 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import LogInButton from './LogInButton';
 import LogOutButton from './LogOutButton';
 import SignUpButton from './SignUpButton';
-import { useState } from 'react';
+import DarkModeToggleButton from './DarkModeToggleButton';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>
+        <div className='bg-gray-100 dark:bg-gray-700 dark:text-gray-100'>
           <Link href="/">HOME</Link>
           <Link href="/list">목록</Link>
           {session ? (
@@ -31,6 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <SignUpButton />
             </>
           )}
+          <DarkModeToggleButton />
         </div>
         <div>{children}</div>
       </body>

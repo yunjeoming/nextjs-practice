@@ -6,7 +6,7 @@ import React from 'react';
 export default function BackButton() {
   const router = useRouter();
   return (
-    <button className='border'
+    <button className='component-btn'
       onClick={() => {
         router.back();
       }}

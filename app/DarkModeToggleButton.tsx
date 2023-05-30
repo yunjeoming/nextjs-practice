@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -13,5 +13,9 @@ export default function DarkModeToggleButton() {
     setIsDarkMode(!isDarkMode);
   };
 
-  return <button onClick={toggleDarkMode}>darkMode is {isDarkMode.toString()}</button>;
+  return (
+    <button className="text-2xl p-0" onClick={toggleDarkMode}>
+      {isDarkMode ? '🌕' : '🌞'}
+    </button>
+  );
 }

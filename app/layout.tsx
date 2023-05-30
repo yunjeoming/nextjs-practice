@@ -20,20 +20,26 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className='bg-gray-100 dark:bg-gray-700 dark:text-gray-100'>
-          <Link href="/">HOME</Link>
-          <Link href="/list">목록</Link>
-          {session ? (
-            <LogOutButton />
-          ) : (
-            <>
-              <LogInButton />
-              <SignUpButton />
-            </>
-          )}
-          <DarkModeToggleButton />
+        <div className="flex justify-between bg-gray-50 dark:bg-gray-700 dark:text-gray-100 border-b h-14 px-4">
+          <Link href="/" className="flex items-center">
+            HOME
+          </Link>
+          <Link href="/list" className="flex items-center">
+            목록
+          </Link>
+          <div className="flex items-center [&>*:not(:last-child)]:mr-2">
+            {session ? (
+              <LogOutButton />
+            ) : (
+              <>
+                <LogInButton />
+                <SignUpButton />
+              </>
+            )}
+            <DarkModeToggleButton />
+          </div>
         </div>
-        <div>{children}</div>
+        <div className="min-h-[calc(100vh-56px)] bg-gray-100 dark:dark p-4">{children}</div>
       </body>
     </html>
   );

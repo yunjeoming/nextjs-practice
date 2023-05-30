@@ -15,17 +15,17 @@ export default async function New() {
     );
   }
   return (
-    <div>
+    <div className="form">
       <h4>글 작성</h4>
       <form action="/api/board/new" method="POST">
-        <div>
-          <input id="title" name="title" className="border" placeholder="제목을 입력해주세요." />
+        <input id="title" name="title" className="input" placeholder="제목을 입력해주세요." />
+        <textarea id="content" name="content" className="input" placeholder="내용을 입력해주세요." />
+        <div className="flex justify-end">
+          <BackButton />
+          <button type="submit" className="border bg-gray-50 ml-2">
+            작성
+          </button>
         </div>
-        <div>
-          <textarea id="content" name="content" className="border" placeholder="내용을 입력해주세요." />
-        </div>
-        <BackButton />
-        <button type="submit">작성</button>
       </form>
     </div>
   );

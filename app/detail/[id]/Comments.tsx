@@ -52,14 +52,21 @@ export default function Comments({ id }: { id: string }) {
     <div>
       <div>
         {comments.map((c) => (
-          <div key={c._id} className="flex justify-between border">
-            <div>{c.content}</div>
-            <span>{c.authorName}</span>
+          <div
+            key={c._id}
+            className="flex items-center justify-between border px-4 py-2 rounded-md bg-gray-50 mb-2 dark:dark"
+          >
+            <div className="flex-grow">{c.content}</div>
+            <span className="basis-10 text-xs">{c.authorName}</span>
           </div>
         ))}
       </div>
-      <input onChange={onChangeComment} value={comment} />
-      <button onClick={handleClick}>댓글 등록</button>
+      <div className="flex">
+        <input className="flex-grow rounded-md mr-2 px-4 border dark:text-gray-700" onChange={onChangeComment} value={comment} />
+        <button className="border text-sm" onClick={handleClick}>
+          댓글 등록
+        </button>
+      </div>
     </div>
   );
 }

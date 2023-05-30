@@ -15,9 +15,7 @@ export default async function EditPage({ params: { id } }: Props) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return (
-      <div>잘못된 접근입니다.</div>
-    )
+    return <div>잘못된 접근입니다.</div>;
   }
 
   const client = await connectDB;
@@ -26,32 +24,30 @@ export default async function EditPage({ params: { id } }: Props) {
     _id: new ObjectId(id),
   });
   return (
-    <div>
-      <h4>수정페이지</h4>
-      <BackButton />
-
+    <div className="form">
+      <h4>글 수정</h4>
       <form action="/api/board/edit" method="POST">
         <input type="hidden" name="_id" defaultValue={id} />
-        <div>
-          <input
-            id="title"
-            name="title"
-            defaultValue={result?.title || ''}
-            className="border"
-            placeholder="제목을 입력해주세요."
-          />
+        <input
+          id="title"
+          name="title"
+          defaultValue={result?.title || ''}
+          className="input"
+          placeholder="제목을 입력해주세요."
+        />
+        <textarea
+          id="content"
+          name="content"
+          defaultValue={result?.content || ''}
+          className="input"
+          placeholder="내용을 입력해주세요."
+        />
+        <div className="flex justify-end">
+          <BackButton />
+          <button type="submit" className="border bg-gray-50 ml-2">
+            수정
+          </button>
         </div>
-        <div>
-          <textarea
-            id="content"
-            name="content"
-            defaultValue={result?.content || ''}
-            className="border"
-            placeholder="내용을 입력해주세요."
-          />
-        </div>
-        <BackButton />
-        <button type="submit">수정</button>
       </form>
     </div>
   );

@@ -36,16 +36,21 @@ export default function Boards({ boards, user }: Props) {
   return (
     <>
       {boards.map((board) => (
-        <div key={board._id} className="border opacity-100 transition-all duration-500 ease-in">
+        <div
+          key={board._id}
+          className="border rounded-md opacity-100 transition-all duration-500 ease-in mb-4 p-4 bg-gray-50 dark:bg-gray-700 dark:text-gray-100"
+        >
           <Link prefetch={false} href={`/detail/${board._id}`}>
-            <h4>{board.title}</h4>
+            <h4 className="font-bold ellipsis">{board.title}</h4>
           </Link>
           <p>{board.content}</p>
           {user?.isRole === 'admin' ||
             (user?.email === board.authorEmail && (
-              <span className="cursor-pointer" onClick={(e) => handleDelete(e, board._id)}>
-                삭제
-              </span>
+              <div className="flex justify-end text-xs">
+                <span className="cursor-pointer" onClick={(e) => handleDelete(e, board._id)}>
+                  삭제
+                </span>
+              </div>
             ))}
         </div>
       ))}

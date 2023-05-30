@@ -39,13 +39,14 @@ export default async function List() {
   );
 
   return (
-    <div>
-      <div>List</div>
-      <div>
-        <HomeButton />
+    <>
+      <div className="mb-2 flex items-center justify-between">
+        <h2 className='text-2xl'>게시판 목록</h2>
+        <Link href={'/new'} className="link bg-gray-50 dark:dark">
+          글 작성
+        </Link>
       </div>
-      <Link href={'/new'}>글 작성</Link>
       <Boards user={user} boards={boards} />
-    </div>
+    </>
   );
 }

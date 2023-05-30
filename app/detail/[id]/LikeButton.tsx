@@ -21,7 +21,7 @@ export default function LikeButton({ id, isLiked }: { id: string; isLiked: boole
 
   return (
     <span className="text-lg cursor-pointer" onClick={handleClick}>
-      {liked ? '★' : '☆'}
+      {liked ? '🧡' : '🤍'}
     </span>
   );
 }

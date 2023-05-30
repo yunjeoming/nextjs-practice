@@ -22,11 +22,9 @@ export default async function page({ params: { id } }: Props) {
   const board = await db.collection('post').findOne({
     _id: boardId,
   });
-  const userLiked = session
-    ? await db.collection('liked').findOne({
-        userId: new ObjectId(session.user.id),
-      })
-    : null;
+  const userLiked = await db.collection('liked').findOne({
+    userId: new ObjectId(session.user.id),
+  });
   const isLiked: boolean = userLiked?.posts.includes(id) || false;
   const isMyBoard = session ? board?.authorEmail === session.user?.email : false;
 
@@ -37,11 +35,13 @@ export default async function page({ params: { id } }: Props) {
         <h4 className="font-bold">상세페이지</h4>
         {isMyBoard ? <EditButton id={id} /> : <span></span>}
       </div>
-      <div className='border bg-gray-50 rounded-md p-4 dark:dark'>
-        <h4 className='mb-4'>{board?.title || ''}</h4>
+      <div className="border bg-gray-50 rounded-md p-4 dark:dark">
+        <h4 className="mb-4">{board?.title || ''}</h4>
         <p>{board?.content || ''}</p>
       </div>
-      <LikeButton id={id} isLiked={isLiked} />
+      <div className='my-2 pl-2'>
+        좋아요 <LikeButton id={id} isLiked={isLiked} />
+      </div>
       <Comments id={id} />
     </>
   );
